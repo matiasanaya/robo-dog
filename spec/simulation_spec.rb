@@ -12,6 +12,7 @@ RSpec.describe RoboticSheepDog::Simulation do
     let(:robots) { [double, double] }
     it 'executes each robot' do
       robots.each do |robot|
+        allow(robot).to receive(:add_coordinator)
         expect(robot).to receive(:execute).with(:all)
       end
 
@@ -21,9 +22,10 @@ RSpec.describe RoboticSheepDog::Simulation do
 
   describe '#report' do
     let(:robot_double) do
-      r_dbl = double
-      allow(r_dbl).to receive(:report).and_return('robot report')
-      r_dbl
+      dbl = double
+      allow(dbl).to receive(:add_coordinator)
+      allow(dbl).to receive(:report).and_return('robot report')
+      dbl
     end
 
     let(:robots) { [robot_double] }
@@ -44,7 +46,11 @@ RSpec.describe RoboticSheepDog::Simulation do
     let(:simulation) { described_class.new(robots: [robot], paddock: paddock) }
 
     let(:paddock) { double }
-    let(:robot) { double }
+    let(:robot) do
+      dbl = double
+      allow(dbl).to receive(:add_coordinator)
+      dbl
+    end
 
     context 'without coordinates object' do
       it 'returns nil' do

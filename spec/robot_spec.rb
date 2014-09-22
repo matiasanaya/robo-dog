@@ -10,7 +10,7 @@ RSpec.describe RoboticSheepDog::Robot do
     described_class.new(
       pose: pose,
       commands: commands,
-      coordinator: coordinator
+      coordinators: [coordinator]
     )
   end
 

@@ -3,7 +3,11 @@ module RoboticSheepDog
     def initialize(args = {})
       @pose = args[:pose]
       @commands = args[:commands] || []
-      @coordinator = args[:coordinator]
+      @coordinators = args[:coordinators] || []
+    end
+
+    def add_coordinator(coordinator)
+      coordinators << coordinator
     end
 
     def execute(mode)
@@ -29,7 +33,7 @@ module RoboticSheepDog
 
     def move
       adj_pose = pose.adjacent
-      self.pose = adj_pose if coordinator.valid_coordinates?(adj_pose)
+      self.pose = adj_pose if coordinators.all? { |c| c.valid_coordinates?(adj_pose.coordinates) }
       nil
     end
 
@@ -45,7 +49,7 @@ module RoboticSheepDog
 
     private
 
-    attr_reader :commands, :coordinator
+    attr_reader :commands, :coordinators
     attr_accessor :pose
   end
 end

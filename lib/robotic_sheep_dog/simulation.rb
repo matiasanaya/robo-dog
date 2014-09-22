@@ -3,6 +3,7 @@ module RoboticSheepDog
     def initialize(args = {})
       @paddock = args[:paddock]
       @robots = args[:robots] || []
+      post_initialize
     end
 
     def run
@@ -17,11 +18,17 @@ module RoboticSheepDog
     end
 
     def valid_coordinates?(coordinates)
-      coordinates && paddock.valid_coordinates?(coordinates) && robots.all? { |r| r.coordinates != coordinates }
+      coordinates &&
+      paddock.valid_coordinates?(coordinates) &&
+      robots.all? { |r| r.coordinates != coordinates }
     end
 
     private
 
     attr_reader :robots, :paddock
+
+    def post_initialize
+      robots.each { |r| r.add_coordinator(self) }
+    end
   end
 end
