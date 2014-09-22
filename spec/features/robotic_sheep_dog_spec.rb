@@ -1,4 +1,5 @@
 require_relative '../../lib/robotic_sheep_dog/application'
+require 'stringio'
 
 RSpec.describe RoboticSheepDog::Application do
 
@@ -19,7 +20,7 @@ RSpec.describe RoboticSheepDog::Application do
         |5 1 E
       END
 
-      expect { app.call(input) }.to output(correct_output).to_stdout
+      expect { app.call(StringIO.new(input)) }.to output(correct_output).to_stdout
     end
   end
 end
