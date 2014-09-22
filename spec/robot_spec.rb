@@ -80,7 +80,9 @@ RSpec.describe RoboticSheepDog::Robot do
   describe '#move' do
     let(:pose) do
       dbl = double
-      allow(dbl).to receive(:adjacent).and_return('adjacent pose')
+      adj_pose = 'adjacent pose'
+      allow(adj_pose).to receive(:coordinates).and_return('some coordinates')
+      allow(dbl).to receive(:adjacent).and_return(adj_pose)
       dbl
     end
 
