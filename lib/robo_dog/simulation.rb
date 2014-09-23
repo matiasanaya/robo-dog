@@ -6,6 +6,7 @@ module RoboDog
     end
 
     def run(mode = :sequential)
+      mode ||= :sequential
       warm_up
       case mode
       when :sequential
@@ -40,9 +41,8 @@ module RoboDog
     def fail_appropriately
       fail(
         'Invalid coordinates. This means two '\
-        'robots collided or one of them did '\
-        'with the border of the paddock.'\
-        "#{robots.inspect}"
+        'robots collided or a robot hit '\
+        'the border of the paddock.'
       )
     end
 
