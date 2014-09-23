@@ -20,6 +20,19 @@ module RoboticSheepDog
           WEST
         end
       end
+
+      def stringify(orientation)
+        case orientation
+        when NORTH
+          'N'
+        when EAST
+          'E'
+        when SOUTH
+          'S'
+        when WEST
+          'W'
+        end
+      end
     end
   end
 end
