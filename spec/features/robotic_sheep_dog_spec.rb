@@ -3,7 +3,7 @@ require 'stringio'
 
 RSpec.describe RoboticSheepDog::Application do
 
-  let(:app) { lambda { |f| RoboticSheepDog::Application.new(input: f).run } }
+  let(:app) { lambda { |input_stream| RoboticSheepDog::Application.build(input_stream).run } }
 
   context 'when input is provided' do
     it 'prints the correct output' do
