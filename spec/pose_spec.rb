@@ -42,7 +42,7 @@ RSpec.describe RoboticSheepDog::Pose do
     end
 
     it 'includes x, y and orientation' do
-      is_expected.to include x: 0, y: 0, orientation: :north
+      is_expected.to include x: 0, y: 0, orientation: 'N'
     end
   end
 
@@ -61,7 +61,14 @@ RSpec.describe RoboticSheepDog::Pose do
   describe '#adjacent' do
     let(:pose) { described_class.new(x: 2, y: 2, orientation: orientation) }
 
-    subject { pose.adjacent.report }
+    subject do
+      adj = pose.adjacent
+      {
+        x: adj.instance_variable_get(:@x),
+        y: adj.instance_variable_get(:@y),
+        orientation: adj.instance_variable_get(:@orientation)
+      }
+    end
 
     context 'when facing north' do
       let(:orientation) { described_class::Orientation::NORTH }
@@ -96,8 +103,17 @@ RSpec.describe RoboticSheepDog::Pose do
     let(:pose) { described_class.new(x: 2, y: 2, orientation: init_orientation) }
 
     shared_examples 'a rotatable pose' do |direction, correct_orientation|
+      subject do
+        rotated = pose.rotate!(direction)
+        {
+          x: rotated.instance_variable_get(:@x),
+          y: rotated.instance_variable_get(:@y),
+          orientation: rotated.instance_variable_get(:@orientation)
+        }
+      end
+
       it 'returns the correct orientation' do
-        expect(pose.rotate!(direction).report).to include x: 2, y: 2, orientation: correct_orientation
+        is_expected.to include x: 2, y: 2, orientation: correct_orientation
       end
     end
 
