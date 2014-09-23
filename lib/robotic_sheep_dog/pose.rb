@@ -17,7 +17,9 @@ module RoboticSheepDog
     end
 
     def report
-      coordinates.merge(orientation: Orientation.stringify(orientation))
+      coordinates.merge(
+        orientation: Orientation.stringify(orientation)
+      )
     end
 
     def coordinates

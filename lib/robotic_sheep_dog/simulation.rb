@@ -8,7 +8,6 @@ module RoboticSheepDog
     def run
       warm_up
       robots.each { |r| r.execute(:all) }
-      true
     end
 
     def report
@@ -35,8 +34,8 @@ module RoboticSheepDog
 
     def fail_appropriately
       fail(
-        'Invalid coordinates. This means robots'\
-        'collided with themselves or the border'\
+        'Invalid coordinates. This means robots '\
+        'collided with themselves or the border '\
         'of the paddock.'
       )
     end

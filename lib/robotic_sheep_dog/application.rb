@@ -14,15 +14,11 @@ module RoboticSheepDog
     end
 
     def run
-      s = simulation_class.new(
-        parser.parse(
-          input
-        )
-      )
+      simulation_attrs = parser.parse(input)
+      simulation = simulation_class.new(simulation_attrs)
 
-      s.run
-
-      puts format(s.report)
+      simulation.run
+      puts format(simulation.report)
     end
 
     private

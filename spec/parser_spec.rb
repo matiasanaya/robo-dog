@@ -21,7 +21,6 @@ RSpec.describe RoboticSheepDog::Parser do
       end
 
       context 'with missing robot data' do
-
         it_behaves_like 'a complaining parser',
                         <<-END.gsub(/^\s+\|/, '')
                           |1 1
