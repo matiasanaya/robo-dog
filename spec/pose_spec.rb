@@ -2,8 +2,33 @@ require_relative '../lib/robotic_sheep_dog/pose'
 
 RSpec.describe RoboticSheepDog::Pose do
   describe 'the public interface' do
+    it { expect(described_class).to respond_to :build }
     subject{ described_class.new }
     it { is_expected.to respond_to :report, :coordinates, :adjacent, :rotate! }
+  end
+
+  describe '.build' do
+    context 'with invalid data' do
+      let(:data) { '1' }
+      it 'screams at you' do
+        expect { described_class.build(data) }.to raise_exception described_class::DataError
+      end
+    end
+    context 'with valid data' do
+      let(:data) { '4 3 N'}
+      it 'returns a instance of self' do
+        expect(described_class.build(data)).to be_instance_of described_class
+      end
+      it 'builds with correct x coordinate' do
+        expect(described_class.build(data).instance_variable_get(:@x)).to eql 4
+      end
+      it 'builds with correct y coordinate' do
+        expect(described_class.build(data).instance_variable_get(:@y)).to eql 3
+      end
+      it 'builds with correct orientation' do
+        expect(described_class.build(data).instance_variable_get(:@orientation)).to eql described_class::Orientation::NORTH
+      end
+    end
   end
 
   let(:pose) do
