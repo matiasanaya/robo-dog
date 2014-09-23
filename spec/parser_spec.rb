@@ -7,40 +7,25 @@ RSpec.describe RoboticSheepDog::Parser do
   end
 
   describe '.parse' do
-
     shared_examples 'a complaining parser' do |input_string|
       it 'screams at you' do
         str_io = StringIO.new(input_string)
-        expect { described_class.parse(str_io) }.to raise_exception RoboticSheepDog::Parser::DataError
+        expect { described_class.parse(str_io) }.to raise_exception described_class::DataError
       end
     end
 
     context 'with invalid input data' do
-
-      it_behaves_like 'a complaining parser',
-                        'invalid data'
-
-      context 'with missing paddock data' do
+      context 'with no data' do
         it_behaves_like 'a complaining parser',
-                        <<-END.gsub(/^\s+\|/, '')
-                          |1 2 N
-                          |LMLMLMLMM
-                        END
-      end
-      context 'with invalid paddock data' do
-        it_behaves_like 'a complaining parser',
-                        <<-END.gsub(/^\s+\|/, '')
-                          |5
-                          |1 2 N
-                          |LMLMLMLMM
-                        END
+                        ''
       end
 
       context 'with missing robot data' do
+
         it_behaves_like 'a complaining parser',
                         <<-END.gsub(/^\s+\|/, '')
-                          |5 5
-                          |1 3 S
+                          |1 1
+                          |only robot_1 coordinates
                         END
       end
     end
@@ -48,48 +33,42 @@ RSpec.describe RoboticSheepDog::Parser do
     context 'with valid input data' do
       let(:valid_input) do
         s = <<-END.gsub(/^\s+\|/, '')
-          |5 5
-          |1 2 N
-          |LMLMLMLMM
-          |3 3 E
-          |MMRMMRMRRM
+          |a paddock description
+          |robot_1 coordinate
+          |robot_1 commands
+          |robot_2 coordinates
+          |robot_2 commands
         END
         StringIO.new(s)
       end
 
-      subject { described_class.parse(valid_input) }
+      subject do
+        described_class.instance_variable_set(:@paddock_factory, paddock_factory)
+        described_class.instance_variable_set(:@robot_factory, robot_factory)
+        described_class.parse(valid_input)
+      end
+
+      let(:paddock_factory) do
+        dbl = double
+        allow(dbl).to receive(:build).and_return('a paddock')
+        dbl
+      end
+      let(:robot_factory) do
+        dbl = double
+        allow(dbl).to receive(:build).and_return('robot_1','robot_2')
+        dbl
+      end
 
       it 'returns a hash' do
         is_expected.to be_instance_of Hash
       end
 
       it 'includes paddock data' do
-        is_expected.to include :paddock
+        is_expected.to include paddock: 'a paddock'
       end
 
       it 'includes robots data' do
-        is_expected.to include :robots
-      end
-
-      it 'parses paddock data' do
-        is_expected.to include paddock: '5 5'
-      end
-
-      it 'parser robot data' do
-        robots = {
-          robots: [
-            {
-              pose: '1 2 N',
-              commands: 'LMLMLMLMM'
-            },
-            {
-              pose: '3 3 E',
-              commands: 'MMRMMRMRRM'
-            }
-          ]
-        }
-
-        is_expected.to include robots
+        is_expected.to include robots: ['robot_1', 'robot_2']
       end
     end
   end

@@ -1,21 +1,26 @@
+require_relative 'paddock'
+require_relative 'robot'
+
 module RoboticSheepDog
   module Parser
     DataError = Class.new(StandardError)
 
-    @validator = -> (data, regex) { raise DataError unless data =~ regex }
+    @paddock_factory = Paddock
+    @robot_factory = Robot
 
-    @extractor = lambda do |input, regex|
-      extracted = input.gets
-      if extracted
-        extracted.chomp!
-        @validator.call(extracted, regex)
-      end
-      extracted
+    @extractor = -> (input) { e = input.gets and e.chomp }
+
+    @paddock_parser = lambda do |input|
+      paddock_attrs = @extractor.call(input)
+
+      raise DataError unless paddock_attrs
+
+      paddock = @paddock_factory.build(paddock_attrs)
     end
 
-    @robot_data_parser = lambda do |input|
-      pose = @extractor.call(input, /\A\d+ \d+ [NSWE]\z/)
-      commands = @extractor.call(input, /\A[MLR]*\z/)
+    @robot_extractor = lambda do |input|
+      pose = @extractor.call(input)
+      commands = @extractor.call(input)
 
       if pose && commands
         {
@@ -31,12 +36,12 @@ module RoboticSheepDog
     module_function
 
     def parse(input)
-      paddock = @extractor.call(input, /\A\d+ \d+\z/)
+      paddock = @paddock_parser.call(input)
       robots = []
       loop do
-        robot = @robot_data_parser.call(input)
-        break unless robot
-        robots << robot
+        robot_attrs = @robot_extractor.call(input)
+        break unless robot_attrs
+        robots << @robot_factory.build(robot_attrs)
       end
 
       {
