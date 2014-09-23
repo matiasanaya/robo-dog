@@ -64,28 +64,28 @@ RSpec.describe RoboticSheepDog::Pose do
     subject { pose.adjacent.report }
 
     context 'when facing north' do
-      let(:orientation) { RoboticSheepDog::Pose::Orientation::NORTH }
+      let(:orientation) { described_class::Orientation::NORTH }
       it 'returns the correct coordinates' do
         is_expected.to include x: 2, y: 3, orientation: orientation
       end
     end
 
     context 'when facing east' do
-      let(:orientation) { RoboticSheepDog::Pose::Orientation::EAST }
+      let(:orientation) { described_class::Orientation::EAST }
       it 'returns the correct coordinates' do
         is_expected.to include x: 3, y: 2, orientation: orientation
       end
     end
 
     context 'when facing south' do
-      let(:orientation) { RoboticSheepDog::Pose::Orientation::SOUTH }
+      let(:orientation) { described_class::Orientation::SOUTH }
       it 'returns the correct coordinates' do
         is_expected.to include x: 2, y: 1, orientation: orientation
       end
     end
 
     context 'when facing west' do
-      let(:orientation) { RoboticSheepDog::Pose::Orientation::WEST }
+      let(:orientation) { described_class::Orientation::WEST }
       it 'returns the correct coordinates' do
         is_expected.to include x: 1, y: 2, orientation: orientation
       end
@@ -102,47 +102,47 @@ RSpec.describe RoboticSheepDog::Pose do
     end
 
     context 'when facing north' do
-      let(:init_orientation) { RoboticSheepDog::Pose::Orientation::NORTH }
+      let(:init_orientation) { described_class::Orientation::NORTH }
       it_behaves_like 'a rotatable pose',
                       :clockwise,
-                      RoboticSheepDog::Pose::Orientation::EAST
+                      described_class::Orientation::EAST
 
       it_behaves_like 'a rotatable pose',
                       :counter,
-                      RoboticSheepDog::Pose::Orientation::WEST
+                      described_class::Orientation::WEST
     end
 
     context 'when facing east' do
-      let(:init_orientation) { RoboticSheepDog::Pose::Orientation::EAST }
+      let(:init_orientation) { described_class::Orientation::EAST }
       it_behaves_like 'a rotatable pose',
                       :clockwise,
-                      RoboticSheepDog::Pose::Orientation::SOUTH
+                      described_class::Orientation::SOUTH
 
       it_behaves_like 'a rotatable pose',
                       :counter,
-                      RoboticSheepDog::Pose::Orientation::NORTH
+                      described_class::Orientation::NORTH
     end
 
     context 'when facing south' do
-      let(:init_orientation) { RoboticSheepDog::Pose::Orientation::SOUTH }
+      let(:init_orientation) { described_class::Orientation::SOUTH }
       it_behaves_like 'a rotatable pose',
                       :clockwise,
-                      RoboticSheepDog::Pose::Orientation::WEST
+                      described_class::Orientation::WEST
 
       it_behaves_like 'a rotatable pose',
                       :counter,
-                      RoboticSheepDog::Pose::Orientation::EAST
+                      described_class::Orientation::EAST
     end
 
     context 'when facing west' do
-      let(:init_orientation) { RoboticSheepDog::Pose::Orientation::WEST }
+      let(:init_orientation) { described_class::Orientation::WEST }
       it_behaves_like 'a rotatable pose',
                       :clockwise,
-                      RoboticSheepDog::Pose::Orientation::NORTH
+                      described_class::Orientation::NORTH
 
       it_behaves_like 'a rotatable pose',
                       :counter,
-                      RoboticSheepDog::Pose::Orientation::SOUTH
+                      described_class::Orientation::SOUTH
     end
   end
 end
