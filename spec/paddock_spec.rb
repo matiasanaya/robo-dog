@@ -1,6 +1,6 @@
-require_relative '../lib/robotic_sheep_dog/paddock'
+require_relative '../lib/robo_dog/paddock'
 
-RSpec.describe RoboticSheepDog::Paddock do
+RSpec.describe RoboDog::Paddock do
   describe 'the public interface' do
     it { expect(described_class).to respond_to :build }
 

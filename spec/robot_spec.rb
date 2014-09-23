@@ -1,6 +1,6 @@
-require_relative '../lib/robotic_sheep_dog/robot'
+require_relative '../lib/robo_dog/robot'
 
-RSpec.describe RoboticSheepDog::Robot do
+RSpec.describe RoboDog::Robot do
   describe 'the public interface' do
     it { expect(described_class).to respond_to :build }
     subject{ described_class.new }
@@ -28,7 +28,7 @@ RSpec.describe RoboticSheepDog::Robot do
         expect(described_class.build(data).instance_variable_get(:@commands)).to be == [:left, :right, :move, :right]
       end
       it 'delegates pose building' do
-        expect(RoboticSheepDog::Pose).to receive(:build).with(data[:pose])
+        expect(RoboDog::Pose).to receive(:build).with(data[:pose])
         described_class.build(data)
       end
     end

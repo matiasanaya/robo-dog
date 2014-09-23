@@ -1,9 +1,9 @@
-require_relative '../../lib/robotic_sheep_dog/application'
+require_relative '../../lib/robo_dog/application'
 require 'stringio'
 
-RSpec.describe RoboticSheepDog::Application do
+RSpec.describe RoboDog::Application do
 
-  let(:app) { lambda { |input_stream| RoboticSheepDog::Application.build(input_stream).run(mode) } }
+  let(:app) { lambda { |input_stream| RoboDog::Application.build(input_stream).run(mode) } }
   let(:mode) { :sequential }
 
   shared_examples 'a correct application' do |input_string, correct_output|

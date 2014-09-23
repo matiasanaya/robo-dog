@@ -1,4 +1,4 @@
-module RoboticSheepDog
+module RoboDog
   class Pose
     module Orientation
       NORTH = :north

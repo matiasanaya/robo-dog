@@ -1,4 +1,4 @@
-module RoboticSheepDog
+module RoboDog
   class Paddock
 
     DataError = Class.new(StandardError)

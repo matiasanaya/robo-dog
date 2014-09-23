@@ -1,6 +1,6 @@
-require_relative '../lib/robotic_sheep_dog/pose'
+require_relative '../lib/robo_dog/pose'
 
-RSpec.describe RoboticSheepDog::Pose do
+RSpec.describe RoboDog::Pose do
   describe 'the public interface' do
     it { expect(described_class).to respond_to :build }
     subject{ described_class.new }

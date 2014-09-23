@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+
+require_relative '../lib/robo_dog/application'
+
+RoboDog::Application.build.run

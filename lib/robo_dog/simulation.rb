@@ -1,4 +1,4 @@
-module RoboticSheepDog
+module RoboDog
   class Simulation
     def initialize(args = {})
       @paddock = args[:paddock]

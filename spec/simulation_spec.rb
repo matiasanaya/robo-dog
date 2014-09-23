@@ -1,6 +1,6 @@
-require_relative '../lib/robotic_sheep_dog/simulation'
+require_relative '../lib/robo_dog/simulation'
 
-RSpec.describe RoboticSheepDog::Simulation do
+RSpec.describe RoboDog::Simulation do
   describe 'the public interface' do
     subject{ described_class.new }
     it { is_expected.to respond_to :run, :report, :valid_coordinates? }

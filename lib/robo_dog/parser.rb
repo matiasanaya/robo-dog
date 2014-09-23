@@ -1,7 +1,7 @@
 require_relative 'paddock'
 require_relative 'robot'
 
-module RoboticSheepDog
+module RoboDog
   module Parser
     DataError = Class.new(StandardError)
 

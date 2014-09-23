@@ -1,7 +1,7 @@
 require_relative 'parser'
 require_relative 'simulation'
 
-module RoboticSheepDog
+module RoboDog
   class Application
     def self.build(input = nil)
       new(input: input, parser: Parser, simulation_class: Simulation)

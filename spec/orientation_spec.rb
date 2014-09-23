@@ -1,6 +1,6 @@
-require_relative '../lib/robotic_sheep_dog/pose/orientation'
+require_relative '../lib/robo_dog/pose/orientation'
 
-RSpec.describe RoboticSheepDog::Pose::Orientation do
+RSpec.describe RoboDog::Pose::Orientation do
   describe 'the public interface' do
     it { expect(described_class).to respond_to :constantize, :stringify }
   end

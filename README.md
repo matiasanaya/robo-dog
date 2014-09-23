@@ -1,4 +1,4 @@
-robotic-sheep-dog
+robo-dog
 =================
 
 Fredwina the Farmer's robotic sheep dog simulator.

@@ -1,6 +1,6 @@
 require_relative 'pose/orientation'
 
-module RoboticSheepDog
+module RoboDog
   class Pose
     DataError = Class.new(StandardError)
 

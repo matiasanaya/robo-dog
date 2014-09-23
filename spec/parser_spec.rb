@@ -1,7 +1,7 @@
-require_relative '../lib/robotic_sheep_dog/parser'
+require_relative '../lib/robo_dog/parser'
 require 'stringio'
 
-RSpec.describe RoboticSheepDog::Parser do
+RSpec.describe RoboDog::Parser do
   describe 'the public interface' do
     it { expect(described_class).to respond_to :parse }
   end
