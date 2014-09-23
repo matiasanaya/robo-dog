@@ -1,9 +1,13 @@
 require_relative 'pose'
+require 'forwardable'
 
 module RoboDog
   class Robot
+    extend Forwardable
 
     DataError = Class.new(StandardError)
+
+    def_delegators :@pose, :report, :coordinates
 
     def self.build(attrs)
       raise DataError unless validate(attrs[:commands])
@@ -41,14 +45,6 @@ module RoboDog
           false
         end
       end
-    end
-
-    def report
-      pose.report
-    end
-
-    def coordinates
-      pose.coordinates
     end
 
     def move
