@@ -33,7 +33,13 @@ module RoboticSheepDog
         end
         commands.compact!
       when :next
-        self.send(commands.shift)
+        command = commands.shift
+        if command
+          self.send(command)
+          true
+        else
+          false
+        end
       end
     end
 

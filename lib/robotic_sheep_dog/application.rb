@@ -13,11 +13,11 @@ module RoboticSheepDog
       @simulation_class = args[:simulation_class]
     end
 
-    def run
+    def run(mode = nil)
       simulation_attrs = parser.parse(input)
       simulation = simulation_class.new(simulation_attrs)
 
-      simulation.run
+      simulation.run(mode)
       puts format(simulation.report)
     end
 

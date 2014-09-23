@@ -5,9 +5,14 @@ module RoboticSheepDog
       @robots = args[:robots] || []
     end
 
-    def run
+    def run(mode = :sequential)
       warm_up
-      robots.each { |r| r.execute(:all) }
+      case mode
+      when :sequential
+        robots.each { |r| r.execute(:all) }
+      when :turns
+        run_in_turns
+      end
     end
 
     def report
@@ -34,10 +39,22 @@ module RoboticSheepDog
 
     def fail_appropriately
       fail(
-        'Invalid coordinates. This means robots '\
-        'collided with themselves or the border '\
-        'of the paddock.'
+        'Invalid coordinates. This means two '\
+        'robots collided or one of them did '\
+        'with the border of the paddock.'\
+        "#{robots.inspect}"
       )
+    end
+
+    def run_in_turns
+      loop do
+        executed = false
+        robots.each do |r|
+          _ = r.execute(:next)
+          executed ||= _
+        end
+        break unless executed
+      end
     end
   end
 end
