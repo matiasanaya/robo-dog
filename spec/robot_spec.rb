@@ -4,7 +4,7 @@ RSpec.describe RoboticSheepDog::Robot do
   describe 'the public interface' do
     it { expect(described_class).to respond_to :build }
     subject{ described_class.new }
-    it { is_expected.to respond_to :execute, :report, :coordinates, :move, :right, :left }
+    it { is_expected.to respond_to :execute, :report, :coordinates, :move, :right, :left, :add_coordinator }
   end
 
   describe '.build' do
@@ -45,6 +45,13 @@ RSpec.describe RoboticSheepDog::Robot do
   let(:pose) { double }
   let(:commands) { [] }
   let(:coordinator) { double }
+
+  describe '#add_coordinator' do
+    it 'adds a coordinator to the coordinators array' do
+      robot.add_coordinator('a added coordinator')
+      expect(robot.instance_variable_get(:@coordinators)).to include 'a added coordinator'
+    end
+  end
 
   describe '#execute' do
     let(:commands) { [:left, :move, :left, :right] }
