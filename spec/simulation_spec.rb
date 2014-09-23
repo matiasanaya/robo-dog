@@ -9,14 +9,45 @@ RSpec.describe RoboticSheepDog::Simulation do
   let(:simulation) { described_class.new(robots: robots) }
 
   describe '#run' do
-    let(:robots) { [double, double] }
-    it 'executes each robot' do
-      robots.each do |robot|
+    let(:robots) do
+      _robots = [double, double]
+      _robots.each_with_index do |robot, i|
         allow(robot).to receive(:add_coordinator)
-        expect(robot).to receive(:execute).with(:all)
+        allow(robot).to receive(:coordinates).and_return(i)
+        allow(robot).to receive(:execute).with(:all)
+      end
+      _robots
+    end
+
+    context 'with valid coordiantes for robots' do
+      it 'commands robots to add self as coordinator' do
+        robots.each_with_index do |robot, i|
+          expect(robot).to receive(:add_coordinator)
+        end
+
+        simulation.run
       end
 
-      simulation.run
+      it 'executes each robot' do
+        robots.each_with_index do |robot, i|
+          expect(robot).to receive(:execute).with(:all)
+        end
+
+        simulation.run
+      end
+    end
+
+    context 'with robots placed on top of each other' do
+      let(:robots) do
+      _robots = [double, double]
+      _robots.each do |robot|
+        allow(robot).to receive(:coordinates).and_return(1)
+      end
+      _robots
+    end
+      it 'fails' do
+        expect { simulation.run }.to raise_exception RuntimeError
+      end
     end
   end
 
@@ -53,8 +84,8 @@ RSpec.describe RoboticSheepDog::Simulation do
     end
 
     context 'without coordinates object' do
-      it 'returns nil' do
-        expect(simulation.valid_coordinates?(nil)).to be_falsy
+      it 'fails' do
+        expect { simulation.valid_coordinates?(nil) }.to raise_exception RuntimeError
       end
     end
 
@@ -67,8 +98,8 @@ RSpec.describe RoboticSheepDog::Simulation do
           dbl
         end
 
-        it 'returns falsy' do
-          expect(simulation.valid_coordinates?('some coordinates')).to be_falsy
+        it 'fails' do
+          expect { simulation.valid_coordinates?('some coordinates') }.to raise_exception RuntimeError
         end
       end
 
@@ -88,10 +119,10 @@ RSpec.describe RoboticSheepDog::Simulation do
         end
 
         context 'with other robot in coordinates' do
-          it 'returns falsy' do
+          it 'fails' do
             allow(robot).to receive(:coordinates).and_return('same coordinates')
 
-            expect(simulation.valid_coordinates?('same coordinates')).to be_falsy
+            expect { simulation.valid_coordinates?('same coordinates') }.to raise_exception RuntimeError
           end
         end
       end
