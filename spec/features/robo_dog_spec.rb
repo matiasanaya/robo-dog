@@ -44,6 +44,16 @@ RSpec.describe RoboDog::Application do
                           |L
                         END
                         RuntimeError
+
+        it_behaves_like 'a complaining application',
+                        <<-END.gsub(/^\s+\|/, '') ,
+                          |5 5
+                          |0 0 E
+                          |M
+                          |1 0 N
+                          |L
+                        END
+                        RuntimeError
       end
 
       context 'when robots run over then end of the paddock' do
