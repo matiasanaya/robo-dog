@@ -1,5 +1,19 @@
+require_relative 'pose'
+
 module RoboticSheepDog
   class Robot
+
+    DataError = Class.new(StandardError)
+
+    def self.build(attrs)
+      raise DataError unless validate(attrs[:commands])
+
+      pose = Pose.build(attrs[:pose])
+      commands = lex(attrs[:commands])
+
+      new(pose: pose, commands: commands)
+    end
+
     def initialize(args = {})
       @pose = args[:pose]
       @commands = args[:commands] || []
@@ -51,5 +65,22 @@ module RoboticSheepDog
 
     attr_reader :commands, :coordinators
     attr_accessor :pose
+
+    def self.validate(string)
+      string =~ /\A[MLR]*\z/
+    end
+
+    def self.lex(commands_string)
+      commands_string.chars.map do |char|
+        case char
+        when 'M'
+          :move
+        when 'R'
+          :right
+        when 'L'
+          :left
+        end
+      end
+    end
   end
 end

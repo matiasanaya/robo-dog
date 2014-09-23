@@ -2,8 +2,36 @@ require_relative '../lib/robotic_sheep_dog/robot'
 
 RSpec.describe RoboticSheepDog::Robot do
   describe 'the public interface' do
+    it { expect(described_class).to respond_to :build }
     subject{ described_class.new }
     it { is_expected.to respond_to :execute, :report, :coordinates, :move, :right, :left }
+  end
+
+  describe '.build' do
+    context 'with invalid data' do
+      let(:data) { {commands: 'wrong'} }
+      it 'screams at you' do
+        expect { described_class.build(data) }.to raise_exception described_class::DataError
+      end
+    end
+    context 'with valid data' do
+      let(:data) do
+        {
+          commands: 'LRMR',
+          pose: '0 0 N'
+        }
+      end
+      it 'returns a instance of self' do
+        expect(described_class.build(data)).to be_instance_of described_class
+      end
+      it 'builds with correct commands' do
+        expect(described_class.build(data).instance_variable_get(:@commands)).to be == [:left, :right, :move, :right]
+      end
+      it 'delegates pose building' do
+        expect(RoboticSheepDog::Pose).to receive(:build).with(data[:pose])
+        described_class.build(data)
+      end
+    end
   end
 
   let(:robot) do
